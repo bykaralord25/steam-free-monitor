@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Steam Free Game Monitor — state yönetimi ve Discord bildirimi.
+Steam Free Game Monitor - state management and Discord notification.
 
-Kullanım:
-    python steam_monitor.py                        # state'i oku, rapor ver
-    python steam_monitor.py --update <games.json>  # yeni oyunları state'e kaydet
-    python steam_monitor.py --notify <games.json>  # yeni oyunları Discord'a postala
+Usage:
+    python steam_monitor.py                        # read state, print report
+    python steam_monitor.py --update <games.json>  # save new games to state
+    python steam_monitor.py --notify <games.json>  # send new games to Discord
 """
 
 import json
@@ -55,23 +55,23 @@ def update_state(games: list[dict], state: dict) -> list[dict]:
 
 def send_discord_notification(games: list[dict]) -> bool:
     if not DISCORD_WEBHOOK:
-        print("⚠️  DISCORD_WEBHOOK_URL tanımlı değil.")
+        print("DISCORD_WEBHOOK_URL not set.")
         return False
     fields = []
     for game in games[:10]:
-        emoji = "🎁" if game["type"] == "free_to_keep" else "🎮"
-        label = "Sonsuza kadar ücretsiz" if game["type"] == "free_to_keep" else "Ücretsiz oyna (haftasonu)"
-        value = f"[Steam Mağazası]({game['store_url']})\n{label}"
+        emoji = "gift" if game["type"] == "free_to_keep" else "game"
+        label = "Free to keep forever" if game["type"] == "free_to_keep" else "Free weekend"
+        value = f"[Steam Store]({game['store_url']})\n{label}"
         if game.get("expires"):
-            value += f"\n⏰ Bitiş: {game['expires']}"
+            value += f"\nExpires: {game['expires']}"
         fields.append({"name": f"{emoji} {game['name']}", "value": value, "inline": False})
     payload = {
         "username": "Steam Free Game Monitor",
         "embeds": [{
-            "title": f"🎮 {len(games)} Yeni Ücretsiz Steam Oyunu!",
+            "title": f"{len(games)} new free Steam game(s) found!",
             "color": 0x1b2838,
             "fields": fields,
-            "footer": {"text": "SteamDB · Hermes Agent ile otomatik takip"},
+            "footer": {"text": "SteamDB - automated tracking"},
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }]
     }
@@ -80,19 +80,19 @@ def send_discord_notification(games: list[dict]) -> bool:
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
             if resp.status in (200, 204):
-                print(f"✅ Discord'a {len(games)} oyun bildirimi gönderildi.")
+                print(f"Sent {len(games)} notification(s) to Discord.")
                 return True
-            print(f"⚠️  Discord HTTP {resp.status}")
+            print(f"Discord HTTP {resp.status}")
             return False
     except Exception as e:
-        print(f"⚠️  Discord hatası: {e}")
+        print(f"Discord error: {e}")
         return False
 
 
 def format_table(games: list[dict]) -> str:
     if not games:
-        return "Ücretsiz oyun bulunamadı."
-    lines = [f"{'Oyun':<50} {'Tur':<18} {'Bitis':<35}", "-" * 105]
+        return "No free games found."
+    lines = [f"{'Game':<50} {'Type':<18} {'Expires':<35}", "-" * 105]
     for g in games:
         name = g["name"][:48] + ".." if len(g["name"]) > 50 else g["name"]
         tp = "Free to Keep" if g["type"] == "free_to_keep" else "Play for Free"
@@ -126,23 +126,23 @@ def main():
         save_state(state)
 
         if new_games:
-            print(f"🎉 {len(new_games)} yeni ücretsiz oyun bulundu!")
+            print(f"Found {len(new_games)} new free game(s)!")
             print(format_table(new_games))
             if notify_mode:
                 send_discord_notification(new_games)
         else:
-            print(f"✅ {len(games)} oyun islendi, yeni yok.")
-        print(f"\n📊 Toplam: {len(state['seen_apps'])} | Uyari: {state['total_alerts']}")
+            print(f"Processed {len(games)} game(s), no new entries.")
+        print(f"\nTotal tracked: {len(state['seen_apps'])} | Total alerts: {state['total_alerts']}")
         return 0
 
     state = load_state()
-    print(f"📊 Steam Free Game Monitor — State")
-    print(f"📁 {STATE_FILE}")
-    print(f"Toplam takip: {len(state['seen_apps'])} | Toplam uyari: {state['total_alerts']}")
+    print(f"Steam Free Game Monitor - State")
+    print(f"File: {STATE_FILE}")
+    print(f"Total tracked: {len(state['seen_apps'])} | Total alerts: {state['total_alerts']}")
     if state.get("last_check"):
-        print(f"Son kontrol: {state['last_check']}")
+        print(f"Last check: {state['last_check']}")
     if state["seen_apps"]:
-        print("\n=== Takip Edilen Oyunlar ===")
+        print("\n=== Tracked Games ===")
         games = [{"app_id": k, **v} for k, v in state["seen_apps"].items()]
         print(format_table(games))
 

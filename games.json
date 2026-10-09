@@ -1,9 +1,9 @@
 [
-  {"app_id": "730", "name": "Counter-Strike 2", "type": "free_to_keep", "store_url": "https://store.steampowered.com/app/730/", "started": "Started: 9 October 2026 – 00:00:00 UTC", "expires": "Expires: 11 October 2026 – 00:00:00 UTC"},
+  {"app_id": "730", "name": "Counter-Strike 2", "type": "free_to_keep", "store_url": "https://store.steampowered.com/app/730/", "started": "", "expires": "Expires: 11 October 2026 - 00:00:00 UTC"},
   {"app_id": "736220", "name": "Squad 44", "type": "play_for_free", "store_url": "https://store.steampowered.com/app/736220/", "started": "", "expires": ""},
   {"app_id": "1621690", "name": "Core Keeper", "type": "play_for_free", "store_url": "https://store.steampowered.com/app/1621690/", "started": "", "expires": ""},
   {"app_id": "405640", "name": "Pony Island", "type": "free_to_keep", "store_url": "https://store.steampowered.com/app/405640/", "started": "", "expires": ""},
-  {"app_id": "2283211", "name": "World of Warships — Ning Hai", "type": "free_to_keep", "store_url": "https://store.steampowered.com/app/2283211/", "started": "", "expires": ""},
+  {"app_id": "2283211", "name": "World of Warships - Ning Hai", "type": "free_to_keep", "store_url": "https://store.steampowered.com/app/2283211/", "started": "", "expires": ""},
   {"app_id": "4114140", "name": "Gear.Club Unlimited 3 - Gear.Club Signature Pack", "type": "free_to_keep", "store_url": "https://store.steampowered.com/app/4114140/", "started": "", "expires": ""},
   {"app_id": "1808500", "name": "ARC Raiders", "type": "play_for_free", "store_url": "https://store.steampowered.com/app/1808500/", "started": "", "expires": ""},
   {"app_id": "5067220", "name": "Rotwood: Drakin Armoury Pack", "type": "free_to_keep", "store_url": "https://store.steampowered.com/app/5067220/", "started": "", "expires": ""},
