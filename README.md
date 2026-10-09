@@ -1,6 +1,6 @@
 # Steam Free Game Monitor
 
-Automatically tracks free game promotions on Steam. Scrapes SteamDB's free promotions page, detects new free-to-keep and play-for-free games, and sends a Discord notification when something new drops. Runs on a cron schedule. Set it once and forget about it.
+Automatically tracks free game promotions on Steam. Scrapes SteamDB's free promotions page, detects new free to keep and play for free games, and sends a Discord notification when something new drops. Runs on a cron schedule. Set it once and forget about it.
 
 ## How It Works
 
@@ -20,7 +20,7 @@ SteamDB returns HTTP 403 on direct requests (bot protection). This tool uses a r
 | File | What it does |
 |------|-------------|
 | `steam_monitor.py` | State management, deduplication, Discord webhook notification |
-| `steam_free_monitor.py` | HTTP-based fetcher (fallback, blocked by SteamDB 403, kept for reference) |
+| `steam_free_monitor.py` | HTTP based fetcher (fallback, blocked by SteamDB 403, kept for reference) |
 | `games.json` | Current promotion data extracted from the browser |
 | `run_cron.sh` | Cron tick shell script |
 | `DISCORD_SHARE.md` | Draft text for sharing the project |
